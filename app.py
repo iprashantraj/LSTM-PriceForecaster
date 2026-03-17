@@ -246,7 +246,7 @@ fig.update_layout(
     yaxis=dict(gridcolor="rgba(255,255,255,0.05)", title="Price ($)"),
 )
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 
 # ── Details ───────────────────────────────────────────────────────────────────
 with st.expander("Show Daily Projections"):
@@ -254,7 +254,7 @@ with st.expander("Show Daily Projections"):
         "Date": future_dates.strftime('%Y-%m-%d'),
         "Price": [f"${p:.2f}" for p in preds_inv],
     })
-    st.dataframe(details_df.set_index("Date"), use_container_width=True)
+    st.dataframe(details_df.set_index("Date"), width="stretch")
 
 # Footer
 st.markdown("---")
