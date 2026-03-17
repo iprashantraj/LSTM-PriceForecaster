@@ -96,7 +96,20 @@ TIME_STEP   = 100
 @st.cache_resource
 def load_model_and_scaler():
     import joblib
+    import tensorflow as tf
     from tensorflow.keras.models import load_model
+    from tensorflow.keras.layers import Dense, InputLayer
+
+    # Monkeypatch for Keras 3 deserialization bug: 'quantization_config' not recognized
+    # This happens when loading models saved in slightly different Keras 3 versions
+    for layer_cls in [Dense, InputLayer]:
+        original_init = layer_cls.__init__
+        def patched_init(self, *args, **kwargs):
+            kwargs.pop('quantization_config', None)
+            kwargs.pop('optional', None) # Also seen in some traces
+            return original_init(self, *args, **kwargs)
+        layer_cls.__init__ = patched_init
+
     model  = load_model(MODEL_PATH, compile=False)
     scaler = joblib.load(SCALER_PATH)
     return model, scaler
