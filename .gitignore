@@ -20,10 +20,8 @@ build/
 venv/
 ENV/
 
-# Large data & model files (tracked separately)
-AAPL_full.csv
-aapl_lstm_model.keras
-aapl_scaler.pkl
+# Large data & model files — intentionally kept small so included in repo
+# Scratch outputs
 plot_*.png
 prediction_plot.png
 outputs.txt
